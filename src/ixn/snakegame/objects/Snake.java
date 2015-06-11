@@ -41,7 +41,7 @@ public class Snake
 		
 		if(snakeX[0] > main.WIDTH-1) snakeX[0] = 0;
 		if(snakeX[0] < 0) snakeX[0] = main.WIDTH-1;
-		if(snakeY[0] > main.HEIGHT-1) snakeX[0] = 0;
-		if(snakeY[0] < 0) snakeX[0] = main.HEIGHT-1;
+		if(snakeY[0] > main.HEIGHT-1) snakeY[0] = 0;
+		if(snakeY[0] < 0) snakeY[0] = main.HEIGHT-1;
 	}
 }
