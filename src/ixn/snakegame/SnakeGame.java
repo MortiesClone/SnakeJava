@@ -52,7 +52,9 @@ public class SnakeGame extends JPanel implements ActionListener//Jpanel дл€ окна
 			g.drawLine(0, yy, WIDTH*SCALE, yy);//ну тут тоже самое только наоборот
 		}
 		//–исуем змейку
-		for(int d = 0; d < s.lenght; d++)
+		g.setColor(color(200, 150, 0));//цвет €рко зеленый
+		g.fillRect(s.snakeX[0]*SCALE+1, s.snakeY[0]*SCALE+1, SCALE-1, SCALE-1);
+		for(int d = 1; d < s.lenght; d++)
 		{
 			g.setColor(color(200, 150, 0));//цвет €рко зеленый
 			g.fillRect(s.snakeX[d]*SCALE+1, s.snakeY[d]*SCALE+1, SCALE-1, SCALE-1);//g.fillRect( координата х, координата у, ширина, высота); 
@@ -62,9 +64,9 @@ public class SnakeGame extends JPanel implements ActionListener//Jpanel дл€ окна
 		//рисуем €блоко
 		g.setColor(color(255, 255, 255));//цвет белый
 		g.drawString("—обрано: " + count, 5, 15);
-		g.fillRect(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
+		g.fillOval(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
 		g.setColor(color(55, 0, 0));//цвет красный
-		g.fillRect(a.posX*SCALE+8, a.posY*SCALE+8, SCALE/2, SCALE/2);
+		g.fillOval(a.posX*SCALE+8, a.posY*SCALE+8, SCALE/2, SCALE/2);
 	}
 	
 	public Color color(int red, int green, int blue)
