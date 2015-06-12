@@ -36,12 +36,19 @@ public class Snake
 		
 		for(int d = lenght; d > 0; d--)
 		{
-			if((snakeX[0] == snakeX[d]) && (snakeY[0] == snakeY[d])) lenght = 2;
+			if((snakeX[0] == snakeX[d]) && (snakeY[0] == snakeY[d])) 
+				dead();
 		}
 		
 		if(snakeX[0] > main.WIDTH-1) snakeX[0] = 0;
 		if(snakeX[0] < 0) snakeX[0] = main.WIDTH-1;
 		if(snakeY[0] > main.HEIGHT-1) snakeY[0] = 0;
 		if(snakeY[0] < 0) snakeY[0] = main.HEIGHT-1;
+	}
+	public void dead()
+	{
+		lenght = 2;
+		main.lastResult = main.count;
+		main.count = 0;
 	}
 }
