@@ -1,6 +1,9 @@
 package ixn.snakegame.objects;
 
+import java.io.IOException;
+
 import ixn.snakegame.SnakeGame;
+import ixn.snakegame.WorkWithFile;
 
 public class Snake 
 {
@@ -50,5 +53,10 @@ public class Snake
 		lenght = 2;
 		main.lastResult = main.count;
 		main.count = 0;
+		try {
+			WorkWithFile.writeFile(main.lastResult, main.bestResult);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

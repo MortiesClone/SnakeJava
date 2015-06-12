@@ -5,14 +5,12 @@ import ixn.snakegame.objects.Snake;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-//import javax.swing.Timer;
 
 public class SnakeGame extends JPanel implements Runnable//Jpanel дл€ окна и работы с ним, ActionListener дл€ работы с клавиатурой
 {
@@ -52,6 +50,7 @@ public class SnakeGame extends JPanel implements Runnable//Jpanel дл€ окна и раб
 		{
 			g.drawLine(0, yy, WIDTH*SCALE, yy);
 		}
+		
 		//–исуем голову змеейки
 		g.setColor(color(200, 150, 0));//цвет €рко зеленый
 		g.fillRect(s.snakeX[0]*SCALE+1, s.snakeY[0]*SCALE+1, SCALE-1, SCALE-1);
@@ -62,11 +61,13 @@ public class SnakeGame extends JPanel implements Runnable//Jpanel дл€ окна и раб
 			g.setColor(color(5, 50, 10));//цвет зеленый
 			g.fillRect(s.snakeX[d]*SCALE+8, s.snakeY[d]*SCALE+8, SCALE/2, SCALE/2);
 		}
-		//рисуем €блоко
-		g.setColor(color(200, 30, 100));//цвет белый
-		g.drawString("—обрано: " + count, 5, 15);//рисуем строку
+		//рисуем строки
+		g.setColor(color(255, 255, 255));
+		g.drawString("—обрано: " + count, 5, 15);
 		g.drawString("ѕредыдущий результат: " + lastResult, 80, 15);
 		g.drawString("Ћучший результат: " + bestResult, 250, 15);
+		
+		//рисуем €блоко
 		g.setColor(color(255, 255, 255));//цвет белый
 		g.fillOval(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
 		g.setColor(color(55, 0, 0));//цвет красный
@@ -80,11 +81,19 @@ public class SnakeGame extends JPanel implements Runnable//Jpanel дл€ окна и раб
 	
 	public static void main(String[] args)
 	{
+		int results[] = new int[2];
 		JFrame f = new JFrame("Snake");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setResizable(false);
 		f.setSize(WIDTH*SCALE+7, HEIGHT*SCALE+29);
 		f.setLocationRelativeTo(null);
+		try {
+			results = WorkWithFile.readFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		lastResult = results[0];
+		bestResult = results[1];
 		f.add(new SnakeGame());
 		f.setVisible(true);
 	}
@@ -123,7 +132,7 @@ public class SnakeGame extends JPanel implements Runnable//Jpanel дл€ окна и раб
 			bestResult = count;
 		repaint();//перерисовка
 		try {
-			t1.sleep(80);
+			Thread.sleep(80);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}		
