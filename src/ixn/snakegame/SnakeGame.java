@@ -32,9 +32,7 @@ public class SnakeGame extends JPanel implements Runnable
 	
 	Color Background = new Color(5, 50, 10);
 	Color Line = new Color(255, 216, 0);
-	Color snakeColor = new Color(200, 150, 0);
 	Color stringColor = new Color(255, 255, 255);
-	Color appleColor = new Color(206, 32, 41);
 	
 	Apple a = new Apple((int)(Math.random()*WIDTH), (int)(Math.random()*HEIGHT));
 	Snake s = new Snake(10, 10, 9, 10);
@@ -47,52 +45,47 @@ public class SnakeGame extends JPanel implements Runnable
 		setFocusable(true);
 	}
 	
+	public void drawLines(Graphics graph)
+	{
+		graph.setColor(Line);
+		//–исуем линии по х(вертикально)
+		for(int xx = 0; xx <= WIDTH*SCALE; xx+=SCALE)
+		{
+			graph.drawLine(xx, 0, xx, HEIGHT*SCALE);
+		}
+		//–исуем линии по y(горизонтально)
+		for(int yy = 0; yy <= HEIGHT*SCALE; yy+=SCALE)
+		{
+			graph.drawLine(0, yy, WIDTH*SCALE, yy);
+		}
+	}
+	
+	public void drawStrings(Graphics graph)
+	{
+		//рисуем строки
+		graph.setColor(stringColor);
+		graph.drawString("—обрано: " + count, 5, 15);
+		graph.drawString("ѕредыдущий результат: " + lastResult, 100, 15);
+		graph.drawString("Ћучший результат: " + bestResult, 310, 15);
+		graph.drawString("ƒл€ паузы нажмите: P", WIDTH*SCALE-170, HEIGHT*SCALE-10);
+	}
+	
 	public void paint(Graphics g)//функци€ дл€ рисовани€ всего
 	{
 		g.setFont(stringFont);
 		g.setColor(Background);
 		g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);//фон
 		
-		g.setColor(Line);
-		//–исуем линии по х(вертикально)
-		for(int xx = 0; xx <= WIDTH*SCALE; xx+=SCALE)
-		{
-			g.drawLine(xx, 0, xx, HEIGHT*SCALE);
-		}
-		//–исуем линии по y(горизонтально)
-		for(int yy = 0; yy <= HEIGHT*SCALE; yy+=SCALE)
-		{
-			g.drawLine(0, yy, WIDTH*SCALE, yy);
-		}
-		
-		//–исуем голову змеейки
-		g.setColor(snakeColor);//цвет €рко зеленый
-		g.fillRect(s.snakeX[0]*SCALE+1, s.snakeY[0]*SCALE+1, SCALE-1, SCALE-1);
-		for(int d = 1; d < s.lenght; d++)//рисуем тело змейки
-		{
-			g.setColor(snakeColor);//цвет €рко зеленый
-			g.fillRect(s.snakeX[d]*SCALE+1, s.snakeY[d]*SCALE+1, SCALE-1, SCALE-1);; 
-			g.setColor(Background);//цвет зеленый
-			g.fillRect(s.snakeX[d]*SCALE+8, s.snakeY[d]*SCALE+8, SCALE/2, SCALE/2);
-		}
+		drawLines(g);
+		s.drawSnake(g, SCALE);
+		a.drawApple(g, SCALE);
+		drawStrings(g);
 		
 		if(isPause)
 		{
 			g.setColor(stringColor);
 			g.drawString("ѕауза", (WIDTH*SCALE)/2, (HEIGHT*SCALE+29)/2);
 		}
-			
-		//рисуем €блоко
-		g.setColor(appleColor);
-		g.fillOval(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
-		
-		//рисуем строки
-		
-		g.setColor(stringColor);
-		g.drawString("—обрано: " + count, 5, 15);
-		g.drawString("ѕредыдущий результат: " + lastResult, 100, 15);
-		g.drawString("Ћучший результат: " + bestResult, 310, 15);
-		g.drawString("ƒл€ паузы нажмите: P", WIDTH*SCALE-170, HEIGHT*SCALE-10);
 	}
 	
 	public static void main(String[] args)
@@ -103,9 +96,12 @@ public class SnakeGame extends JPanel implements Runnable
 		f.setResizable(false);
 		f.setSize(WIDTH*SCALE+7, HEIGHT*SCALE+29);
 		f.setLocationRelativeTo(null);
-		try {
+		try 
+		{
 			results = WorkWithFile.readFile();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 		lastResult = results[0];
@@ -130,12 +126,13 @@ public class SnakeGame extends JPanel implements Runnable
 		}
 	}
 
-	public void run() {
-		while (true){
+	public void run()
+	{
+		while (true)
+		{
 			if(isPause == false)
 			{
-				s.move();//движение змейки
-				
+				s.move();//движение змейки			
 				if((s.snakeX[0] == a.posX) && (s.snakeY[0] == a.posY))//съдание змейкой €блока
 				{
 					a.setRandomPosition();//изменение позиции €блока
@@ -145,9 +142,9 @@ public class SnakeGame extends JPanel implements Runnable
 				//это чтобы €блоко не генерировалось на змейке
 				for(int k = 1; k < s.lenght; k++)
 				{
-					if((s.snakeX[k] == a.posX) && (s.snakeY[k] == a.posY))//если координаты €блока наход€тс€ на координатах змейки
+					if((s.snakeX[k] == a.posX) && (s.snakeY[k] == a.posY))
 					{
-						a.setRandomPosition();//то изменить позицию
+						a.setRandomPosition();
 					}
 				}
 				if(bestResult < count)
@@ -159,9 +156,12 @@ public class SnakeGame extends JPanel implements Runnable
 				Speed -= 2;
 			}
 			repaint();//перерисовка
-			try {
+			try
+			{
 				Thread.sleep(Speed);
-			} catch (InterruptedException e) {
+			} 
+			catch (InterruptedException e) 
+			{
 				e.printStackTrace();
 			}		
 		}

@@ -3,6 +3,8 @@ package ixn.snakegame.objects;
 import ixn.snakegame.SnakeGame;
 import ixn.snakegame.WorkWithFile;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
@@ -14,6 +16,9 @@ public class Snake
 	public int direction = 0;
 	public int lenght = 2;
 	
+	Color snakeColor = new Color(200, 150, 0);
+	Color Background = new Color(5, 50, 10);
+	
 	public int snakeX[] = new int[main.WIDTH*main.HEIGHT];
 	public int snakeY[] = new int[main.WIDTH*main.HEIGHT];
 	
@@ -23,6 +28,20 @@ public class Snake
 		snakeY[0] = y0;
 		snakeX[1] = x1;
 		snakeY[1] = y1;
+	}
+	
+	public void drawSnake(Graphics graph, int Scale)
+	{
+		//–исуем голову змеейки
+		graph.setColor(snakeColor);//цвет €рко зеленый
+		graph.fillRect(snakeX[0]*Scale+1, snakeY[0]*Scale+1, Scale-1, Scale-1);
+		for(int d = 1; d < lenght; d++)//рисуем тело змейки
+		{
+			graph.setColor(snakeColor);//цвет €рко зеленый
+			graph.fillRect(snakeX[d]*Scale+1, snakeY[d]*Scale+1, Scale-1, Scale-1);; 
+			graph.setColor(Background);//цвет зеленый
+			graph.fillRect(snakeX[d]*Scale+8, snakeY[d]*Scale+8, Scale/2, Scale/2);
+		}
 	}
 	
 	public void move()
