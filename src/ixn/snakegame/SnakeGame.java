@@ -49,6 +49,7 @@ public class SnakeGame extends JPanel implements Runnable
 	
 	public void paint(Graphics g)//функция для рисования всего
 	{
+		g.setFont(stringFont);
 		g.setColor(Background);
 		g.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);//фон
 		
@@ -75,20 +76,23 @@ public class SnakeGame extends JPanel implements Runnable
 			g.fillRect(s.snakeX[d]*SCALE+8, s.snakeY[d]*SCALE+8, SCALE/2, SCALE/2);
 		}
 		
+		if(isPause)
+		{
+			g.setColor(stringColor);
+			g.drawString("Пауза", (WIDTH*SCALE)/2, (HEIGHT*SCALE+29)/2);
+		}
+			
+		//рисуем яблоко
+		g.setColor(appleColor);
+		g.fillOval(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
+		
 		//рисуем строки
-		g.setFont(stringFont);
+		
 		g.setColor(stringColor);
 		g.drawString("Собрано: " + count, 5, 15);
 		g.drawString("Предыдущий результат: " + lastResult, 100, 15);
 		g.drawString("Лучший результат: " + bestResult, 310, 15);
 		g.drawString("Для паузы нажмите: P", WIDTH*SCALE-170, HEIGHT*SCALE-10);
-		
-		if(isPause)
-			g.drawString("Пауза", (WIDTH*SCALE+7)/2, (HEIGHT*SCALE+29)/2);
-		
-		//рисуем яблоко
-		g.setColor(appleColor);
-		g.fillOval(a.posX*SCALE+1, a.posY*SCALE+1, SCALE-1, SCALE-1);
 	}
 	
 	public static void main(String[] args)
