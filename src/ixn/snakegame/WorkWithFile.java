@@ -33,6 +33,8 @@ public class WorkWithFile {//говнокод короче
 			k = file.read();
 		}
 		file.close();
+		if(str == "")
+			str += "0 0 ";
 		ch = str.toCharArray();
 		str = "";
 		boolean b = false;
